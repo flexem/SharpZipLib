@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text;
 
 namespace ICSharpCode.SharpZipLib.Tar
@@ -813,10 +814,12 @@ namespace ICSharpCode.SharpZipLib.Tar
 				throw new ArgumentNullException(nameof(buffer));
 			}
 
+			var bytes = Encoding.UTF8.GetBytes(name.Substring(nameOffset));
+
 			int i;
 			
-			for (i = 0 ; i < length && nameOffset + i < name.Length; ++i) {
-				buffer[bufferOffset + i] = (byte)name[nameOffset + i];
+			for (i = 0 ; i < length && i < bytes.Length; ++i) {
+				buffer[bufferOffset + i] = bytes[i];
 			}
 
 			for (; i < length; ++i) {
